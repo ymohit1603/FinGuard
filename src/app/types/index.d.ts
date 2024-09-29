@@ -31,6 +31,7 @@ declare type SearchParamProps = {
     dwollaCustomerId: string;
     firstName: string;
     lastName: string;
+    name: string;
     address1: string;
     city: string;
     state: string;
@@ -208,6 +209,7 @@ declare type SearchParamProps = {
   
   declare interface FooterProps {
     user: User;
+    type?:"desktop"|"mobile"
   }
   
   declare interface RightSidebarProps {
