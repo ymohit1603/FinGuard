@@ -58,7 +58,7 @@ const RecentTransactions = ({
               type="full"
             />
 
-            <TransactionsTable transactions={currentTransactions} />
+            {transactions.length > 0 ? <TransactionsTable transactions={currentTransactions} />:<div>No transactions found</div>}
             
 
             {totalPages > 1 && (

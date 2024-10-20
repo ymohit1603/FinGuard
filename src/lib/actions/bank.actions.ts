@@ -16,7 +16,6 @@ import { parseStringify } from "../utils";
 
 import { getBanks, getBank } from "./user.actions";
 import { getTransactionsByBankId } from "./transaction.actions";
-// Get multiple bank accounts
 export const getAccounts = async ({ userId }: getAccountsProps) => {
   try {
     // get banks from db
@@ -35,6 +34,8 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
           institutionId: accountsResponse.data.item.institution_id!,
         });
 
+        console.log("bank", bank);
+
         const account = {
           id: accountData.account_id,
           availableBalance: accountData.balances.available!,
@@ -46,7 +47,7 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
           type: accountData.type as string,
           subtype: accountData.subtype! as string,
           appwriteItemId: bank.$id,
-          sharaebleId: bank.shareableId,
+          shareableId: bank.shareableId,
         };
 
         return account;
@@ -68,8 +69,10 @@ export const getAccounts = async ({ userId }: getAccountsProps) => {
 export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
   try {
     // get bank from db
+    console.log("appwriteItemId",appwriteItemId);
     const bank = await getBank({ documentId: appwriteItemId });
 
+    console.log("bank", bank);
     // get account info from plaid
     const accountsResponse = await plaidClient.accountsGet({
       access_token: bank.accessToken,
@@ -152,7 +155,7 @@ export const getTransactions = async ({
   accessToken,
 }: getTransactionsProps) => {
   let hasMore = true;
-  let transactions: { id: string; name: string; paymentChannel: TransactionPaymentChannelEnum; type: TransactionPaymentChannelEnum; accountId: string; amount: number; pending: boolean; category: string; date: string; image: string | null | undefined; }[] = [];
+  let transactions: unknown = [];
 
   try {
     // Iterate through each page of new transaction updates for item
