@@ -6,7 +6,14 @@ import React from 'react'
 
 const Transfer = async () => {
   const loggedIn = await getLoggedInUser();
-  console.log(loggedIn.$id, "loggedin");
+  if (!loggedIn) {
+    return {
+      redirect: {
+        destination: '/login', 
+        permanent: false,
+      },
+    };
+  }
   const accounts = await getAccounts({ 
     userId: loggedIn.$id 
   })
